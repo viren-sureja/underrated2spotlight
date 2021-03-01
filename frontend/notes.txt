@@ -1,0 +1,28 @@
+<------- general ------->
+- graphQl vs RestFul
+    A REST API is an architectural concept for network-based software. 
+    GraphQL, on the other hand, is a query language, a specification, 
+    and a set of tools that operates over a single endpoint using HTTP. 
+    In addition, over the last few years, REST has been used to make new APIs, 
+    while the focus of GraphQL has been to optimize for performance and flexibility.
+- React components has a built-in state object.
+    The state object is where you store property values that belongs to the component.
+    When the state object changes, the component re-renders.
+- CSSTransition is special component from 'react-transition-group' used to add transition effects
+
+<------- syntatical ------->
+- React lets you define components as classes or functions. 
+    Components defined as classes currently provide more features 
+    which are described in detail on this page.
+- Switch is the component which will help to route to single matching exact route
+    thus discarding the naive behaviour of Router
+- React.Fragment is use to return more than 1 root based tags.
+    eg. <1st></1st><2nd></2nd>
+- create Portal allow to render independently of the root element.
+    return ReactDom.createPortal(content, document.getElementById('drawer-hook'));
+
+<------- architectural style ------->
+- Presentational component such as Card
+  statefull component such as some component which manages some states or is react to some states.
+
+<------- intuitive ------->

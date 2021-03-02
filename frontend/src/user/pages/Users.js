@@ -7,7 +7,7 @@ const Users = () => {
 			id: 'u1',
 			name: 'viren',
 			places: 1,
-			image: 'https://source.unsplash.com/random/1080x720',
+			image: 'https://source.unsplash.com/random/170x170',
 		},
 	];
 

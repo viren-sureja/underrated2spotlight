@@ -11,6 +11,7 @@
 - CSSTransition is special component from 'react-transition-group' used to add transition effects
 
 <------- syntatical ------->
+- Map function have ()=>() instead of curly braces in react. 
 - React lets you define components as classes or functions. 
     Components defined as classes currently provide more features 
     which are described in detail on this page.
@@ -20,9 +21,15 @@
     eg. <1st></1st><2nd></2nd>
 - create Portal allow to render independently of the root element.
     return ReactDom.createPortal(content, document.getElementById('drawer-hook'));
+- ...props is spread operator which takes props object and make key value pair attributes
+- useRef() provide a way to access DOM nodes or React elements created in the render method.
 
 <------- architectural style ------->
 - Presentational component such as Card
   statefull component such as some component which manages some states or is react to some states.
+- props.children will render those componenttags which are in between the parent component or where the component is called.
 
-<------- intuitive ------->
+<------- intuitive/other ------->
+- The SFC (short for stateless functional component) defines a function type that returns a JSX Element
+- stateful vs stateless 
+    https://programmingwithmosh.com/javascript/stateful-stateless-components-react/

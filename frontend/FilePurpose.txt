@@ -1,0 +1,1 @@
+Avatar.js: to give styling to profile pic images.

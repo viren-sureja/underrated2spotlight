@@ -1,0 +1,9 @@
+<------- general ------->
+- router means nothing but the way to listen certain http method 
+
+<------- syntatical ------->
+- if the name of the property is same as the name of the variable then JS expand automatically
+    eg. {places} => {places: places} 
+
+<------- intuitive/other ------->
+

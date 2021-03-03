@@ -1,16 +1,19 @@
 {
 	"name": "backend",
 	"version": "1.0.0",
-	"description": "Server side of web-app",
+	"description": "backend of my app",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon app.js"
 	},
-	"author": "viren-sureja",
+	"author": "viren",
 	"license": "ISC",
 	"dependencies": {
 		"body-parser": "^1.19.0",
-		"express": "^4.17.1",
-		"uuid": "^8.3.2"
+		"express": "^4.17.1"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.7"
 	}
 }

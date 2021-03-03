@@ -22,7 +22,10 @@
 - create Portal allow to render independently of the root element.
     return ReactDom.createPortal(content, document.getElementById('drawer-hook'));
 - ...props is spread operator which takes props object and make key value pair attributes
-- useRef() provide a way to access DOM nodes or React elements created in the render method.
+- "useRef()" provide a way to access DOM nodes or React elements created in the render method.
+- "onBlur()" is event handler triggered when cursor click in event area and then click outside the event area
+- to avoid infinite loop between the useEffect and call back function use "useCallback()"
+- ...state means we first took copy of state.
 
 <------- architectural style ------->
 - Presentational component such as Card
@@ -33,3 +36,4 @@
 - The SFC (short for stateless functional component) defines a function type that returns a JSX Element
 - stateful vs stateless 
     https://programmingwithmosh.com/javascript/stateful-stateless-components-react/
+- when we have 2 interactive statesHook to maintain use 'useReducer'

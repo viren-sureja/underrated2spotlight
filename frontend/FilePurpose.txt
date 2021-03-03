@@ -1,1 +1,2 @@
 Avatar.js: to give styling to profile pic images.
+FormHook.js: is custom hook

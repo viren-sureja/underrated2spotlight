@@ -46,6 +46,7 @@
 .nav-links button:active {
 	background: #292929;
 	color: white;
+	border: black 1px solid;
 }
 
 @media (min-width: 768px) {

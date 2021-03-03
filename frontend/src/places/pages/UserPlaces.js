@@ -6,7 +6,7 @@ import PlaceList from '../components/PlaceList';
 const DUMMY_PLACES = [
 	{
 		id: 'p1',
-		title: 'empire state building',
+		title: 'emp. state building',
 		imageUrl:
 			'https://lh5.googleusercontent.com/p/AF1QipPkbMIS9hMUlPb5oqcHlT4ekb44TdI9RlLITrId=w408-h510-k-no',
 		description:

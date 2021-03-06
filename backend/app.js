@@ -1,9 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const placesRoutes = require('./routes/places-routes');
 const usersRoutes = require('./routes/users-routes');
 const HttpError = require('./models/http-error');
+const DBURI = process.env.DBURI;
+const PORT = process.env.PORT;
 
 const app = express();
 
@@ -25,6 +29,10 @@ app.use((error, req, res, next) => {
 	res.json({ message: error.message || 'An unknown error occured!' });
 });
 
-app.listen(5000, () => {
-	console.log('listening on 5000...');
-});
+// start db
+mongoose
+	.connect(DBURI, { useNewUrlParser: true, useUnifiedTopology: true })
+	.then((result) =>
+		app.listen(PORT, () => console.log(`running on port ${PORT}`))
+	)
+	.catch((err) => console.log(err));

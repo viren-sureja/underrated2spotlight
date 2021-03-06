@@ -4,52 +4,9 @@ const { validationResult } = require('express-validator');
 const HttpError = require('../models/http-error');
 // const getCoordsForAddress = require('../util/location');
 const Place = require('../models/place');
-
-let DUMMY_PLACES = [
-	{
-		id: 'p1',
-		title: 'emp. state building',
-		imageUrl:
-			'https://lh5.googleusercontent.com/p/AF1QipPkbMIS9hMUlPb5oqcHlT4ekb44TdI9RlLITrId=w408-h510-k-no',
-		description:
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus aliquam exercitationem dignissimos sapiente sequi, suscipit libero corporis magnam alias officia reprehenderit, commodi a ut ipsa dolor vel architecto ullam delectus?',
-		address: '20 W 34th st, New York, NY 10001',
-		location: {
-			lat: 40.7484405,
-			lng: -73.9856644,
-		},
-		creator: 'u1',
-	},
-	{
-		id: 'p3',
-		title: 'emp. state building',
-		imageUrl:
-			'https://lh5.googleusercontent.com/p/AF1QipPkbMIS9hMUlPb5oqcHlT4ekb44TdI9RlLITrId=w408-h510-k-no',
-		description:
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus aliquam exercitationem dignissimos sapiente sequi, suscipit libero corporis magnam alias officia reprehenderit, commodi a ut ipsa dolor vel architecto ullam delectus?',
-		address: '20 W 34th st, New York, NY 10001',
-		location: {
-			lat: 40.7484405,
-			lng: -73.9856644,
-		},
-		creator: 'u1',
-	},
-	{
-		id: 'p2',
-		title: 'Statue of Unity',
-		imageUrl:
-			'https://lh5.googleusercontent.com/p/AF1QipN2pcAX-IKspn7MMGJORUT5oMUtVi8hX5B_uury=w408-h267-k-no',
-		description:
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus aliquam exercitationem dignissimos sapiente sequi, suscipit libero corporis magnam alias officia reprehenderit, commodi a ut ipsa dolor vel architecto ullam delectus?',
-		address:
-			'Sardar Sarovar Dam, Statue of Unity Rd, Kevadia, Gujarat 393155',
-		location: {
-			lat: 21.8380184,
-			lng: 73.7168841,
-		},
-		creator: 'u2',
-	},
-];
+const User = require('../models/user');
+const mongooseUniqueValidator = require('mongoose-unique-validator');
+const mongoose = require('mongoose');
 
 const getPlaceById = async (req, res, next) => {
 	const placeId = req.params.pid;
@@ -74,8 +31,11 @@ const getPlacesByUserId = async (req, res, next) => {
 	const userId = req.params.uid;
 
 	let places;
+	// another method;
+	// let userWithPlaces;
 	try {
 		places = await Place.find({ creator: userId });
+		// userWithPlaces = await User.findById(userId).populate('places');
 	} catch (err) {
 		const error = new HttpError(
 			'Fetching places failed, please try again later',
@@ -104,7 +64,7 @@ const createPlace = async (req, res, next) => {
 	}
 	const { title, description, coordinates, address, creator } = req.body;
 
-	// to use the co-ordinates verify by giving
+	// use address to fetch coordinates
 	/* 
 	// let coordinates;
 	try {
@@ -113,7 +73,7 @@ const createPlace = async (req, res, next) => {
 		return next(error);
 	} 
 	*/
-	console.log(req.body);
+
 	const createdPlace = new Place({
 		title,
 		description,
@@ -122,19 +82,35 @@ const createPlace = async (req, res, next) => {
 		image: 'https://source.unsplash.com/random/720x480',
 		creator,
 	});
-
-	// DUMMY_PLACES.push(createdPlace);
+	let user;
 	try {
-		await createdPlace.save();
+		user = await User.findById(creator);
 	} catch (err) {
-		const error = new HttpError(
-			'Creating place failed, please try again :)',
-			500
+		return next(
+			new HttpError('Creating place failed, please try again :)', 500)
 		);
-		return next(error);
+	}
+	if (!user) {
+		return next(new HttpError('Could not find user for provided id', 404));
 	}
 
-	res.status(201).json({ places: createdPlace });
+	// DUMMY_PLACES.push(createdPlace);
+	console.log(req.body);
+	try {
+		// we use session so that to complete isolated independent task to finish at single time.
+		const sess = await mongoose.startSession();
+		sess.startTransaction();
+		await createdPlace.save({ session: sess }); // save createdPlace to place collection
+		user.places.push(createdPlace); // pushes place to user's
+		await user.save({ session: sess });
+		await sess.commitTransaction();
+	} catch (err) {
+		console.log(err);
+		return next(
+			new HttpError('Creating place failed, please try again :)', 500)
+		);
+	}
+	res.status(200).json({ message: 'successfully created!!!' });
 };
 
 const updatePlace = async (req, res, next) => {
@@ -172,10 +148,31 @@ const deletePlace = async (req, res, next) => {
 	// DUMMY_PLACES = DUMMY_PLACES.filter((p) => p.id != placeId);
 	let place;
 	try {
-		place = Place.findById(placeId);
+		place = await Place.findById(placeId).populate('creator');
 	} catch (err) {
-		return new HttpError('could not find an item', 500);
+		return new HttpError(
+			'Something went wrong plz try to delete again.',
+			500
+		);
 	}
+	if (!place) {
+		return next(new HttpError('Could not find place for this id.', 404));
+	}
+
+	try {
+		const sess = await mongoose.startSession();
+		sess.startTransaction();
+		await place.remove({ session: sess });
+		place.creator.places.pull(place);
+		await place.creator.save({ session: sess });
+		sess.commitTransaction();
+	} catch (err) {
+		return new HttpError(
+			'Something went wrong plz try to delete again.',
+			500
+		);
+	}
+
 	try {
 		await place.remove();
 	} catch (err) {

@@ -25,7 +25,10 @@
 - "useRef()" provide a way to access DOM nodes or React elements created in the render method.
 - "onBlur()" is event handler triggered when cursor click in event area and then click outside the event area
 - to avoid infinite loop between the useEffect and call back function use "useCallback()"
+  also to avoid re-rendering of the same element when the state changes and instead replace with the callback.
 - ...state means we first took copy of state.
+- Context is primarily used when some data needs to be accessible by many components at different nesting levels.
+  Apply it sparingly because it makes component reuse more difficult
 
 <------- architectural style ------->
 - Presentational component such as Card
@@ -37,3 +40,6 @@
 - stateful vs stateless 
     https://programmingwithmosh.com/javascript/stateful-stateless-components-react/
 - when we have 2 interactive statesHook to maintain use 'useReducer'
+- CORS: cross origin resource origin
+  to handle 
+

@@ -1,3 +1,4 @@
+const fs = require('fs');
 const uuid = require('uuid');
 const { validationResult } = require('express-validator');
 
@@ -62,7 +63,7 @@ const createPlace = async (req, res, next) => {
 			new HttpError('Invalid inputs passed, please check your data', 422)
 		);
 	}
-	const { title, description, coordinates, address, creator } = req.body;
+	const { title, description, address, creator } = req.body;
 
 	// use address to fetch coordinates
 	/* 
@@ -78,8 +79,11 @@ const createPlace = async (req, res, next) => {
 		title,
 		description,
 		address,
-		location: coordinates,
-		image: 'https://source.unsplash.com/random/720x480',
+		location: {
+			lat: 27.1764142,
+			lng: 78.0402217,
+		},
+		image: req.file.path,
 		creator,
 	});
 	let user;
@@ -150,14 +154,15 @@ const deletePlace = async (req, res, next) => {
 	try {
 		place = await Place.findById(placeId).populate('creator');
 	} catch (err) {
-		return new HttpError(
-			'Something went wrong plz try to delete again.',
-			500
+		return next(
+			new HttpError('Something went wrong plz try to delete again.', 500)
 		);
 	}
 	if (!place) {
 		return next(new HttpError('Could not find place for this id.', 404));
 	}
+
+	const imagePath = place.image;
 
 	try {
 		const sess = await mongoose.startSession();
@@ -178,6 +183,9 @@ const deletePlace = async (req, res, next) => {
 	} catch (err) {
 		return new HttpError('could not delete an item', 500);
 	}
+	fs.unlink(imagePath, (err) => {
+		console.log(err);
+	});
 	res.status(200).json({ message: 'Deleted place.' });
 };
 

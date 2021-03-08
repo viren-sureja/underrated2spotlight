@@ -5,9 +5,23 @@
   It means that the server encountered an unexpected condition that 
   prevented it from fulfilling the request. This error is usually returned 
   by the server when no other error code is suitable.
+- The HyperText Transfer Protocol (HTTP) 422 Unprocessable Entity response status 
+  code indicates that the server understands the content type of the request entity,
+   and the syntax of the request entity is correct, but it was unable to process the 
+   contained instructions.
 
 <------- syntatical ------->
 - encodeURIComponent() is used to take string and pass the urlFormatted string for api.
+- users = await User.find({}, '-password');
+  it means to discard the password field while sending user's json data.
+  users = await User.find({}, 'name email');
+  it means to include only name and email while sending json data.
+- using populate method
+  place = await Place.findById(placeId).populate('creator');
+  populate is use to get access to entire document(s) store in different collection
+  src: https://mongoosejs.com/docs/populate.html#population
+- express.static(path.join('uploads', 'images'))
+  This means only this folder will be allowed to share through routes.
 
 <------- intuitive/other ------->
 - when we are implementing async func. never use throw
@@ -16,8 +30,15 @@
   prefer to signal failure by returning a rejected promise.
 - res.json({ place: place.toObject({ getters: true }) });
   here we want to convert to JS object and with not _id(name provided by mongoDB) but id
+- when to use forEach, map, filter, reduce 
+  src: https://tinyurl.com/4tsdcbph
+- double bang/double not operator (!!) is use to type cast in binary format.
 
 <------- libs ------->
 - uuid: generate unique id
 - express-validator: validator to check inputs
 - axios is used to send request from one server to another.
+- mongoose-unique-validator manages to have unique data in desired property-field.
+  eg: to store unique email.
+- multer is grp of middleware basically used to handle upload files 
+  as json understands only text data while multer help to get binary+text data 

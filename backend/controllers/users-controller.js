@@ -34,15 +34,6 @@ const signup = async (req, res, next) => {
 	}
 	const { name, email, password } = req.body;
 
-	// const hasUser = DUMMY_USERS.find((u) => u.email === email);
-
-	// if (hasUser) {
-	// 	throw new HttpError(
-	// 		'provided email is registered, please proceed to login',
-	// 		422
-	// 	);
-	// }
-
 	let existingUser;
 	try {
 		existingUser = await User.findOne({ email: email });
@@ -59,11 +50,11 @@ const signup = async (req, res, next) => {
 	const createdUser = new User({
 		name,
 		email,
-		image: 'https://source.unsplash.com/random/100x100',
+		image: req.file.path,
 		password,
 		places: [],
 	});
-	// DUMMY_USERS.push(createdUser);
+
 	try {
 		await createdUser.save();
 	} catch (err) {
@@ -94,7 +85,10 @@ const login = async (req, res, next) => {
 		);
 	if (existingUser.password !== password)
 		return next(new HttpError('password is wrong. please try again', 401));
-	res.status('200').json({ message: 'Logged in' });
+	res.status('200').json({
+		message: 'Logged in',
+		user: existingUser.toObject({ getters: true }),
+	});
 };
 
 exports.getUsers = getUsers;

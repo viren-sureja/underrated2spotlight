@@ -23,12 +23,16 @@
     return ReactDom.createPortal(content, document.getElementById('drawer-hook'));
 - ...props is spread operator which takes props object and make key value pair attributes
 - "useRef()" provide a way to access DOM nodes or React elements created in the render method.
+  useRef returns a mutable ref object whose .current property is initialized to the passed argument 
+  ( initialValue ). The returned object will persist for the full lifetime of the component. 
+  Essentially, useRef is like a “box” that can hold a mutable value in its .current property.
 - "onBlur()" is event handler triggered when cursor click in event area and then click outside the event area
 - to avoid infinite loop between the useEffect and call back function use "useCallback()"
   also to avoid re-rendering of the same element when the state changes and instead replace with the callback.
 - ...state means we first took copy of state.
 - Context is primarily used when some data needs to be accessible by many components at different nesting levels.
   Apply it sparingly because it makes component reuse more difficult
+- formData is inbuilt JS(browser) api to formData
 
 <------- architectural style ------->
 - Presentational component such as Card

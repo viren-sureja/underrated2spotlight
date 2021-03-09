@@ -63,7 +63,7 @@ const createPlace = async (req, res, next) => {
 			new HttpError('Invalid inputs passed, please check your data', 422)
 		);
 	}
-	const { title, description, address, creator } = req.body;
+	const { title, description, address } = req.body;
 
 	// use address to fetch coordinates
 	/* 
@@ -84,11 +84,11 @@ const createPlace = async (req, res, next) => {
 			lng: 78.0402217,
 		},
 		image: req.file.path,
-		creator,
+		creator: req.userData.userId,
 	});
 	let user;
 	try {
-		user = await User.findById(creator);
+		user = await User.findById(req.userData.userId);
 	} catch (err) {
 		return next(
 			new HttpError('Creating place failed, please try again :)', 500)
@@ -124,33 +124,37 @@ const updatePlace = async (req, res, next) => {
 	}
 	const { title, description } = req.body;
 	const placeId = req.params.pid;
-	// const updatedPlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) }; // make copy of an object.
-	// const index = DUMMY_PLACES.findIndex((p) => p.id === placeId);
-	let updatedPlace;
+
+	let place;
 	try {
-		updatedPlace = await Place.findById(placeId);
+		place = await Place.findById(placeId);
 	} catch (err) {
 		return new HttpError(
 			'Something went wrong, could not update places.',
 			500
 		);
 	}
-	updatedPlace.title = title;
-	updatedPlace.description = description;
+
+	if (place.creator.toString() !== req.userData.userId) {
+		return next(
+			new HttpError('You are not allowed to edit this place.', 401)
+		);
+	}
+
+	place.title = title;
+	place.description = description;
 	try {
-		await updatedPlace.save();
+		await place.save();
 	} catch (err) {
 		return new HttpError('something went wrong, could not add to db.', 500);
 	}
-	// DUMMY_PLACES[index] = updatedPlace;
-	res.status(200).json({ place: updatedPlace.toObject({ getters: true }) });
+
+	res.status(200).json({ place: place.toObject({ getters: true }) });
 };
 const deletePlace = async (req, res, next) => {
 	const placeId = req.params.pid;
-	// if (!DUMMY_PLACES.find((p) => p.id === placeId))
-	// 	throw new HttpError('Could not find a place for that id.', 404);
-	// DUMMY_PLACES = DUMMY_PLACES.filter((p) => p.id != placeId);
 	let place;
+
 	try {
 		place = await Place.findById(placeId).populate('creator');
 	} catch (err) {
@@ -160,6 +164,12 @@ const deletePlace = async (req, res, next) => {
 	}
 	if (!place) {
 		return next(new HttpError('Could not find place for this id.', 404));
+	}
+
+	if (place.creator.id !== req.userData.userId) {
+		return next(
+			new HttpError('you are not alllowed to delete this place.', 401)
+		);
 	}
 
 	const imagePath = place.image;

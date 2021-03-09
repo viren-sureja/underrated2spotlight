@@ -42,3 +42,6 @@
   eg: to store unique email.
 - multer is grp of middleware basically used to handle upload files 
   as json understands only text data while multer help to get binary+text data 
+
+<------- status code ------->
+- url: https://kb.iu.edu/d/bfrc

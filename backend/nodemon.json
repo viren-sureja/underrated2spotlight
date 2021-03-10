@@ -1,9 +1,1 @@
-{
-	"env": {
-		"DB_USER": "public_name",
-		"DB_PASSWORD": "pV6RycP1DVihuLOf",
-		"DB_NAME": "mernA",
-		"GOOGLE_API_KEY": "AIzaSyC_icSFvEs4E7siPpRUMfp6-cqJLddY_WY",
-		"JWT_KEY": "supersecret_dont_share"
-	}
-}
+

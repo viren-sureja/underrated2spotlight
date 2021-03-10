@@ -9,7 +9,6 @@ const placesRoutes = require('./routes/places-routes');
 const usersRoutes = require('./routes/users-routes');
 const HttpError = require('./models/http-error');
 const DBURI = process.env.DBURI;
-const PORT = process.env.PORT;
 
 const app = express();
 
@@ -39,7 +38,7 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
 	if (req.file) {
 		fs.unlink(req.file.path, (err) => {
-			console.log(err);
+			// console.log(err);
 		});
 	}
 	if (res.headerSent) {
@@ -51,8 +50,13 @@ app.use((error, req, res, next) => {
 
 // start db
 mongoose
-	.connect(DBURI, { useNewUrlParser: true, useUnifiedTopology: true })
-	.then((result) =>
-		app.listen(PORT, () => console.log(`running on port ${PORT}`))
+	.connect(
+		`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@newbie.qe3dr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+		{ useNewUrlParser: true, useUnifiedTopology: true }
 	)
-	.catch((err) => console.log(err));
+	.then((result) =>
+		app.listen(5000, () => console.log(`running on port 5000`))
+	)
+	.catch((err) => {
+		// console.log(err);
+	});

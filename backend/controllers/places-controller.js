@@ -99,7 +99,7 @@ const createPlace = async (req, res, next) => {
 	}
 
 	// DUMMY_PLACES.push(createdPlace);
-	console.log(req.body);
+	// console.log(req.body);
 	try {
 		// we use session so that to complete isolated independent task to finish at single time.
 		const sess = await mongoose.startSession();
@@ -109,7 +109,7 @@ const createPlace = async (req, res, next) => {
 		await user.save({ session: sess });
 		await sess.commitTransaction();
 	} catch (err) {
-		console.log(err);
+		// console.log(err);
 		return next(
 			new HttpError('Creating place failed, please try again :)', 500)
 		);
@@ -194,7 +194,7 @@ const deletePlace = async (req, res, next) => {
 		return new HttpError('could not delete an item', 500);
 	}
 	fs.unlink(imagePath, (err) => {
-		console.log(err);
+		// console.log(err);
 	});
 	res.status(200).json({ message: 'Deleted place.' });
 };

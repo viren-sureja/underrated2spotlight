@@ -31,11 +31,8 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -125,7 +122,7 @@ Contributions are what make the open source community such an amazing place to b
 
 Viren Sureja - [@Linkedin](https://www.linkedin.com/in/viren-sureja/)
 
-Project Link: [https://github.com/viren-sureja/underrated2spotlight](https://github.com/viren-sureja/underrated2spotlight)
+Live Project Link: [https://underrated2spotlight.web.app/](https://underrated2spotlight.web.app/)
 
 <!-- ACKNOWLEDGEMENTS -->
 

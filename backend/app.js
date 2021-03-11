@@ -54,8 +54,9 @@ mongoose
 		`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@newbie.qe3dr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
 		{ useNewUrlParser: true, useUnifiedTopology: true }
 	)
-	.then((result) =>
-		app.listen(5000, () => console.log(`running on port 5000`))
+	.then(
+		(result) => app.listen(process.env.PORT || 5000),
+		() => console.log('port assigned!')
 	)
 	.catch((err) => {
 		// console.log(err);

@@ -45,3 +45,7 @@
 
 <------- status code ------->
 - url: https://kb.iu.edu/d/bfrc
+
+<------- deployment ------->
+- first make public folder and then paste build folder from frontend.
+  and some changes shown.

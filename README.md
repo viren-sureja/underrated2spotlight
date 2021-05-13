@@ -10,7 +10,7 @@
     <a href="https://github.com/viren-sureja/underrated2spotlight"><strong>Explore the CodeBase »</strong></a>
     <br />
     <br />
-    <a href="https://underrated2spotlight.web.app/">View Demo</a>
+    <!-- <a href="https://underrated2spotlight.web.app/">View Demo</a> -->
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -122,7 +122,7 @@ Contributions are what make the open source community such an amazing place to b
 
 Viren Sureja - [@Linkedin](https://www.linkedin.com/in/viren-sureja/)
 
-Live Project Link: [https://underrated2spotlight.web.app/](https://underrated2spotlight.web.app/)
+<!-- Live Project Link: [https://underrated2spotlight.web.app/](https://underrated2spotlight.web.app/) -->
 
 <!-- ACKNOWLEDGEMENTS -->
 
